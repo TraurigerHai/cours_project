@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "hbs": "^4.2.0",
     "mysql2": "^3.12.0",
     "nodemon": "^3.1.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TraurigerHai/cours_project.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/TraurigerHai/cours_project/issues"
+  },
+  "homepage": "https://github.com/TraurigerHai/cours_project#readme",
+  "description": ""
 }
