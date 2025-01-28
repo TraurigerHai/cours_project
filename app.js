@@ -14,6 +14,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// Add this before the Basic route
+app.get('/login', (req, res) => {
+    res.render('login.hbs');
+});
+
+app.post('/login', (req, res) => {
+    // Here you would handle the login logic
+    // For now, just redirect back to home
+    res.redirect('/');
+});
+
 // Basic route
 app.get('/', (req, res) => {
     res.render('index.hbs');

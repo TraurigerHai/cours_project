@@ -1,6 +1,22 @@
 :root {
     --border-radius: 10px;
+    /* Основные цвета */
+    --color-primary: #333;
+    --color-white: #ffffff;
+    --color-gray: #f4f4f4;
+    
+    /* Текст */
+    --color-text: #333;
+    
+    /* Фоны и границы */
+    --color-surface: #f8f9fa;
+    --color-border: #ddd;
+    
+    /* Тени */
+    --shadow-default: 0 2px 5px rgba(51,51,51,0.1);
 }
+
+/* ...existing code... */
 
 * {
     margin: 0;
@@ -12,16 +28,16 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: var(--color-gray);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--color-white);
     border-radius: var(--border-radius);
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-default);
 }
 
 .header {
@@ -30,18 +46,35 @@ body {
     align-items: center;
     padding: 1rem 2rem;
     height: 80px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-default);
     border-radius: var(--border-radius);
     margin-bottom: 2rem;
 }
 
 .header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
     width: 50px;
     height: 50px;
-    background-color: #4a90e2;
+    background-color: var(--color-primary);
     border-radius: var(--border-radius);
     flex-shrink: 0;
+    color: var(--color-white);
+    transition: all 0.3s ease;  /* добавляем плавность анимации */
+}
+
+.header-logo-link {
+    text-decoration: none;
+    display: block;
+}
+
+.header-logo-link:hover .header-logo {
+    filter: brightness(130%);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
 }
 
 .nav-menu {
@@ -53,10 +86,10 @@ body {
 
 .nav-link {
     padding: 0.5rem 1.2rem;
-    color: #555;
+    color: var(--color-text);
     font-size: 1rem;
     font-weight: 500;
-    background-color: #f8f9fa;
+    background-color: var(--color-surface);
     border-radius: var(--border-radius);
     transition: all 0.3s ease;
     text-decoration: none;
@@ -66,14 +99,25 @@ body {
 }
 
 .nav-link:hover {
-    background-color: #e9ecef;
-    color: #4a90e2;
+    background-color: var(--color-gray);
+    color: var(--color-primary);
     transform: translateY(-2px);
+    filter: brightness(95%); /* затемнение для светлой кнопки */
 }
 
 .nav-link--active {
-    background-color: #4a90e2;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    pointer-events: none;  /* отключаем взаимодействие */
+    transform: none;       /* отключаем возможную трансформацию */
+    cursor: default;       /* меняем курсор на обычный */
+}
+
+.nav-link--active:hover {
+    transform: none;              /* отключаем анимацию при наведении */
+    filter: none;                /* отключаем эффект яркости */
+    background-color: var(--color-primary);  /* фиксируем цвет фона */
+    color: var(--color-white);   /* фиксируем цвет текста */
 }
 
 .auth-section {
@@ -84,10 +128,10 @@ body {
 
 .auth-link {
     padding: 0.5rem 1.2rem;
-    color: #4a90e2;
+    color: var(--color-primary);
     font-size: 1rem;
     font-weight: 500;
-    background-color: #e7f1ff;
+    background-color: var(--color-surface);
     border-radius: var(--border-radius);
     transition: all 0.3s ease;
     text-decoration: none;
@@ -97,7 +141,64 @@ body {
 }
 
 .auth-link:hover {
-    background-color: #4a90e2;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    filter: brightness(130%); /* осветление для тёмной кнопки */
+}
+
+.auth-form-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.auth-form h2 {
+    text-align: center;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.auth-submit {
+    padding: 0.8rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-submit:hover {
+    background-color: var(--color-primary);
+    filter: brightness(130%); /* осветление для тёмной кнопки */
     transform: translateY(-2px);
 }
