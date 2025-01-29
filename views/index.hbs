@@ -13,13 +13,17 @@
                 <div class="header-logo">🌐</div>
             </a>
             <nav class="nav-menu">
-                <a href="" class="nav-link nav-link--active">first</a>
-                <a href="" class="nav-link">second</a>
-                <a href="" class="nav-link">third</a>
-                <a href="" class="nav-link">fourth</a>
+                <a href="/" class="nav-link nav-link--active">Главная</a>
+                {{#if userId}}
+                <a href="/profile" class="nav-link">Профиль</a>
+                {{/if}}
             </nav>
             <div class="auth-section">
+                {{#if userId}}
+                <a href="/logout" class="auth-link">Выйти</a>
+                {{else}}
                 <a href="/login" class="auth-link">Войти</a>
+                {{/if}}
             </div>
         </div>
         

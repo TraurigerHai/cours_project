@@ -438,3 +438,14 @@ body {
 }
 
 /* ...existing code... */
+
+.error-message {
+    color: var(--color-accent);
+    background-color: #fff5f5;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* ...existing code... */
