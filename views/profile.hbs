@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="header-logo-link">
+                <div class="header-logo">🌐</div>
+            </a>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/profile" class="nav-link nav-link--active">Профиль</a>
+            </nav>
+            <div class="auth-section">
+                <a href="/logout" class="auth-link">Выйти</a>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-header">
+                <h1 class="profile-title">Личный кабинет</h1>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-info">
+                    <h2 class="section-title">Личные данные</h2>
+                    <div class="info-group">
+                        <label>Логин:</label>
+                        <p>username</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Email:</label>-
+                        <p>user@example.com</p>
+                    </div>
+                    <button class="edit-button">Редактировать</button>
+                </div>
+
+                <div class="profile-tariff">
+                    <h2 class="section-title">Текущий тариф</h2>
+                    <div class="current-tariff">
+                        <h3>Стандарт</h3>
+                        <p class="tariff-speed">300 Мбит/с</p>
+                        <p class="tariff-price">800 ₽/мес</p>
+                        <p class="tariff-status">Активен</p>
+                    </div>
+                </div>
+
+                <div class="profile-usage">
+                    <h2 class="section-title">Статистика</h2>
+                    <div class="usage-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Дата оплаты:</span>
+                            <span class="stat-value">15 числа</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Баланс:</span>
+                            <span class="stat-value">1200 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

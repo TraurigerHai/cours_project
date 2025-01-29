@@ -25,6 +25,12 @@ app.post('/login', (req, res) => {
     res.redirect('/');
 });
 
+// Add profile route
+app.get('/profile', (req, res) => {
+    // Here you would check if user is authenticated
+    res.render('profile.hbs');
+});
+
 // Basic route
 app.get('/', (req, res) => {
     res.render('index.hbs');
