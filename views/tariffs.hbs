@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Профиль пользователя</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -13,55 +13,26 @@
                 <div class="header-logo">🌐</div>
             </a>
             <nav class="nav-menu">
-                <a href="/" class="nav-link nav-link--active">Главная</a>
-                {{#if userId}}
+                <a href="/" class="nav-link">Главная</a>
                 <div class="dropdown">
-                    <button class="nav-link dropdown-toggle">Личный кабинет</button>
+                    <button class="nav-link nav-link--active dropdown-toggle">Личный кабинет</button>
                     <div class="dropdown-menu">
-                        <a href="/profile" class="dropdown-item active">Основная информация</a>
-                        <a href="/tariffs" class="dropdown-item">Управление тарифами</a>
+                        <a href="/profile" class="dropdown-item">Основная информация</a>
+                        <a href="/tariffs" class="dropdown-item active">Управление тарифами</a>
                         <a href="/billing" class="dropdown-item">Биллинг и оплата</a>
                         <a href="/support" class="dropdown-item">Поддержка</a>
                         <a href="/connection" class="dropdown-item">Информация о подключении</a>
                         <a href="/history" class="dropdown-item">История использования</a>
                     </div>
                 </div>
-                {{/if}}
             </nav>
             <div class="auth-section">
-                {{#if userId}}
                 <a href="/notifications" class="header-notification-link">
                     <div class="header-notification">🔔</div>
                 </a>
                 <a href="/logout" class="auth-link">Выйти</a>
-                {{else}}
-                <a href="/login" class="auth-link">Войти</a>
-                {{/if}}
             </div>
         </div>
-        
-        <section class="news-section">
-            <h2 class="news-title">Новости и обновления</h2>
-            <div class="news-container">
-                <article class="news-item">
-                    <div class="news-date">15 Января 2024</div>
-                    <h3 class="news-item-title">Увеличение скорости</h3>
-                    <p class="news-content">Мы увеличили скорость интернета на всех тарифах без изменения стоимости!</p>
-                </article>
-                
-                <article class="news-item news-item--important">
-                    <div class="news-date">10 Января 2024</div>
-                    <h3 class="news-item-title">Технические работы</h3>
-                    <p class="news-content">Плановые технические работы 20 января с 02:00 до 05:00.</p>
-                </article>
-                
-                <article class="news-item">
-                    <div class="news-date">5 Января 2024</div>
-                    <h3 class="news-item-title">Новый тариф</h3>
-                    <p class="news-content">Запуск нового тарифа "Премиум+" со скоростью до 1 Гбит/с!</p>
-                </article>
-            </div>
-        </section>
 
         <section class="tariffs">
             <h2 class="tariffs__title">Тарифные планы</h2>
