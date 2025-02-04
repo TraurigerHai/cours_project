@@ -88,6 +88,31 @@ app.get('/profile', requireAuth, (req, res) => {
     );
 });
 
+// New routes for authenticated users
+app.get('/tariffs', requireAuth, (req, res) => {
+    res.render('tariffs');
+});
+
+app.get('/billing', requireAuth, (req, res) => {
+    res.render('billing');
+});
+
+app.get('/support', requireAuth, (req, res) => {
+    res.render('support');
+});
+
+app.get('/connection', requireAuth, (req, res) => {
+    res.render('connection');
+});
+
+app.get('/history', requireAuth, (req, res) => {
+    res.render('history');
+});
+
+app.get('/notifications', requireAuth, (req, res) => {
+    res.render('notifications');
+});
+
 // Basic route
 app.get('/', (req, res) => {
     res.render('index.hbs');
