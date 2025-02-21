@@ -76,16 +76,40 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/profile', requireAuth, (req, res) => {
-    db.query(
-        'SELECT * FROM users WHERE id = ?',
-        [req.session.userId],
-        (error, results) => {
-            if (error || results.length === 0) {
-                return res.redirect('/login');
-            }
-            res.render('profile', { user: results[0] });
+    const query = `
+        SELECT 
+            u.*,
+            c.contract_number,
+            c.balance,
+            c.contract_status,
+            t.name as tariff_name,
+            t.speed,
+            t.price
+        FROM users u
+        LEFT JOIN contracts c ON u.id = c.user_id
+        LEFT JOIN tariffplans t ON c.tariff_id = t.id
+        WHERE u.id = ?
+    `;
+
+    db.query(query, [req.session.userId], (error, results) => {
+        if (error || results.length === 0) {
+            console.error('Error fetching profile data:', error);
+            return res.redirect('/login');
         }
-    );
+        res.render('profile', { 
+            user: results[0],
+            contract: {
+                number: results[0].contract_number,
+                status: results[0].contract_status,
+                balance: results[0].balance
+            },
+            tariff: {
+                name: results[0].tariff_name,
+                speed: results[0].speed,
+                price: results[0].price
+            }
+        });
+    });
 });
 
 // Utility function to fetch tariffs

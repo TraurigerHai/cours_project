@@ -44,23 +44,36 @@
                     <h2 class="section-title">Личные данные</h2>
                     <div class="info-group">
                         <label>Логин:</label>
-                        <p>username</p>
+                        <p>{{user.login}}</p>
                     </div>
                     <div class="info-group">
-                        <label>Email:</label>-
-                        <p>user@example.com</p>
+                        <label>Email:</label>
+                        <p>{{user.email}}</p>
                     </div>
+                    {{#if contract.number}}
+                    <div class="info-group">
+                        <label>Номер договора:</label>
+                        <p>{{contract.number}}</p>
+                    </div>
+                    {{/if}}
                     <button class="edit-button">Редактировать</button>
                 </div>
 
                 <div class="profile-tariff">
                     <h2 class="section-title">Текущий тариф</h2>
+                    {{#if tariff.name}}
                     <div class="current-tariff">
-                        <h3>Стандарт</h3>
-                        <p class="tariff-speed">300 Мбит/с</p>
-                        <p class="tariff-price">800 ₽/мес</p>
-                        <p class="tariff-status">Активен</p>
+                        <h3>{{tariff.name}}</h3>
+                        <p class="tariff-speed">{{tariff.speed}} Мбит/с</p>
+                        <p class="tariff-price">{{tariff.price}} ₽/мес</p>
+                        <p class="tariff-status">{{contract.status}}</p>
                     </div>
+                    {{else}}
+                    <div class="current-tariff">
+                        <p>Тариф не подключен</p>
+                        <a href="/tariffs" class="edit-button">Выбрать тариф</a>
+                    </div>
+                    {{/if}}
                 </div>
 
                 <div class="profile-usage">
@@ -72,7 +85,7 @@
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Баланс:</span>
-                            <span class="stat-value">1200 ₽</span>
+                            <span class="stat-value">{{contract.balance}} ₽</span>
                         </div>
                     </div>
                 </div>
