@@ -36,36 +36,25 @@
 
         <section class="tariffs">
             <h2 class="tariffs__title">Тарифные планы</h2>
+            {{#if error}}
+                <div class="error-message">{{error}}</div>
+            {{/if}}
             <div class="tariffs__grid">
+                {{#each tariffs}}
                 <div class="tariff-card">
-                    <h3 class="tariff-card__title">Базовый</h3>
+                    <h3 class="tariff-card__title">{{name}}</h3>
                     <div class="tariff-card__content">
-                        <p class="tariff-card__speed">100 Мбит/с</p>
-                        <p class="tariff-card__traffic">Безлимитный</p>
-                        <p class="tariff-card__price">500 ₽/мес</p>
+                        <p class="tariff-card__speed">{{speed}} Мбит/с</p>
+                        {{#if limit_gb}}
+                            <p class="tariff-card__traffic">{{limit_gb}} ГБ</p>
+                        {{else}}
+                            <p class="tariff-card__traffic">Безлимитный</p>
+                        {{/if}}
+                        <p class="tariff-card__price">{{price}} ₽/мес</p>
                     </div>
-                    <button class="tariff-card__button">Подключить</button>
+                    <button class="tariff-card__button" data-tariff-id="{{id}}">Подключить</button>
                 </div>
-
-                <div class="tariff-card">
-                    <h3 class="tariff-card__title">Стандарт</h3>
-                    <div class="tariff-card__content">
-                        <p class="tariff-card__speed">300 Мбит/с</p>
-                        <p class="tariff-card__traffic">Безлимитный</p>
-                        <p class="tariff-card__price">800 ₽/мес</p>
-                    </div>
-                    <button class="tariff-card__button">Подключить</button>
-                </div>
-
-                <div class="tariff-card">
-                    <h3 class="tariff-card__title">Премиум</h3>
-                    <div class="tariff-card__content">
-                        <p class="tariff-card__speed">500 Мбит/с</p>
-                        <p class="tariff-card__traffic">Безлимитный</p>
-                        <p class="tariff-card__price">1200 ₽/мес</p>
-                    </div>
-                    <button class="tariff-card__button">Подключить</button>
-                </div>
+                {{/each}}
             </div>
         </section>
     </div>

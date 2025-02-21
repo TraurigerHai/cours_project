@@ -88,9 +88,39 @@ app.get('/profile', requireAuth, (req, res) => {
     );
 });
 
-// New routes for authenticated users
+// Utility function to fetch tariffs
+function getTariffs(callback) {
+    db.query(
+        'SELECT id, name, limit_gb, speed, price FROM tariffplans',
+        (error, results) => {
+            if (error) {
+                console.error('Error fetching tariffs:', error);
+                callback(error, null);
+            } else {
+                callback(null, results);
+            }
+        }
+    );
+}
+
+// Modify root route to include tariffs
+app.get('/', (req, res) => {
+    getTariffs((error, tariffs) => {
+        if (error) {
+            return res.render('index', { error: 'Unable to load tariffs' });
+        }
+        res.render('index', { tariffs });
+    });
+});
+
+// Modify tariffs route
 app.get('/tariffs', requireAuth, (req, res) => {
-    res.render('tariffs');
+    getTariffs((error, tariffs) => {
+        if (error) {
+            return res.render('tariffs', { error: 'Unable to load tariffs' });
+        }
+        res.render('tariffs', { tariffs });
+    });
 });
 
 app.get('/billing', requireAuth, (req, res) => {
@@ -111,11 +141,6 @@ app.get('/history', requireAuth, (req, res) => {
 
 app.get('/notifications', requireAuth, (req, res) => {
     res.render('notifications');
-});
-
-// Basic route
-app.get('/', (req, res) => {
-    res.render('index.hbs');
 });
 
 // Start server
