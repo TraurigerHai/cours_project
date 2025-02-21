@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Интернет провайдер - Главная</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -39,31 +39,48 @@
                 {{/if}}
             </div>
         </div>
-        
-        <section class="news-section">
-            <h2 class="news-title">Новости и обновления</h2>
-            <div class="news-container">
-                <article class="news-item">
-                    <div class="news-date">15 Января 2024</div>
-                    <h3 class="news-item-title">Увеличение скорости</h3>
-                    <p class="news-content">Мы увеличили скорость интернета на всех тарифах без изменения стоимости!</p>
-                </article>
-                
-                <article class="news-item news-item--important">
-                    <div class="news-date">10 Января 2024</div>
-                    <h3 class="news-item-title">Технические работы</h3>
-                    <p class="news-content">Плановые технические работы 20 января с 02:00 до 05:00.</p>
-                </article>
-                
-                <article class="news-item">
-                    <div class="news-date">5 Января 2024</div>
-                    <h3 class="news-item-title">Новый тариф</h3>
-                    <p class="news-content">Запуск нового тарифа "Премиум+" со скоростью до 1 Гбит/с!</p>
-                </article>
+
+        <section class="hero">
+            <div class="hero__content">
+                <h1 class="hero__title">Интернет для вашего дома</h1>
+                <p class="hero__subtitle">Скорость до 1000 Мбит/с</p>
+                <div class="hero__features">
+                    <div class="hero__feature">✓ Бесплатное подключение</div>
+                    <div class="hero__feature">✓ Поддержка 24/7</div>
+                    <div class="hero__feature">✓ Wi-Fi роутер в подарок</div>
+                </div>
+                <a href="#tariffs" class="hero__button">Выбрать тариф</a>
+            </div>
+            <div class="hero__decoration"></div>
+        </section>
+
+        <section class="advantages">
+            <h2 class="section-title">Почему выбирают нас</h2>
+            <div class="advantages__grid">
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">🚀</div>
+                    <h3>Высокая скорость</h3>
+                    <p>До 1000 Мбит/с для загрузки и онлайн игр</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">💎</div>
+                    <h3>Стабильность</h3>
+                    <p>99.9% время работы сети</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">🎮</div>
+                    <h3>Низкий пинг</h3>
+                    <p>Подходит для онлайн игр</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">💰</div>
+                    <h3>Выгодные цены</h3>
+                    <p>Доступные тарифы для всех</p>
+                </div>
             </div>
         </section>
 
-        <section class="tariffs">
+        <section id="tariffs" class="tariffs">
             <h2 class="tariffs__title">Тарифные планы</h2>
             {{#if error}}
                 <div class="error-message">{{error}}</div>
@@ -84,6 +101,50 @@
                     <button class="tariff-card__button" data-tariff-id="{{id}}">Подключить</button>
                 </div>
                 {{/each}}
+            </div>
+        </section>
+
+        <section class="speed-test">
+            <h2 class="section-title">Проверьте скорость интернета</h2>
+            <div class="speed-test__container">
+                <button class="speed-test__button">Начать тест</button>
+                <div class="speed-test__results">
+                    <div class="speed-test__result">
+                        <span class="speed-test__label">Скорость загрузки</span>
+                        <span class="speed-test__value">- Мбит/с</span>
+                    </div>
+                    <div class="speed-test__result">
+                        <span class="speed-test__label">Скорость отдачи</span>
+                        <span class="speed-test__value">- Мбит/с</span>
+                    </div>
+                    <div class="speed-test__result">
+                        <span class="speed-test__label">Пинг</span>
+                        <span class="speed-test__value">- мс</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <h2 class="news-title">Новости и обновления</h2>
+            <div class="news-container">
+                <article class="news-item">
+                    <div class="news-date">15 Января 2024</div>
+                    <h3 class="news-item-title">Увеличение скорости</h3>
+                    <p class="news-content">Мы увеличили скорость интернета на всех тарифах без изменения стоимости!</p>
+                </article>
+                
+                <article class="news-item news-item--important">
+                    <div class="news-date">10 Января 2024</div>
+                    <h3 class="news-item-title">Технические работы</h3>
+                    <p class="news-content">Плановые технические работы 20 января с 02:00 до 05:00.</p>
+                </article>
+                
+                <article class="news-item">
+                    <div class="news-date">5 Января 2024</div>
+                    <h3 class="news-item-title">Новый тариф</h3>
+                    <p class="news-content">Запуск нового тарифа "Премиум+" со скоростью до 1 Гбит/с!</p>
+                </article>
             </div>
         </section>
     </div>
