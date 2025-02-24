@@ -35,25 +35,19 @@
         </div>
 
         <section class="news-section">
-            <h2 class="news-title">Новости и обновления</h2>
+            <h2 class="news-title">Уведомления</h2>
+            {{#if error}}
+                <div class="error-message">{{error}}</div>
+            {{/if}}
             <div class="news-container">
-                <article class="news-item">
-                    <div class="news-date">15 Января 2024</div>
-                    <h3 class="news-item-title">Увеличение скорости</h3>
-                    <p class="news-content">Мы увеличили скорость интернета на всех тарифах без изменения стоимости!</p>
+                {{#each notifications}}
+                <article class="news-item {{#if importance}}news-item--important{{/if}}">
+                    <div class="news-date">{{date}}</div>
+                    <p class="news-content">{{content}}</p>
                 </article>
-                
-                <article class="news-item news-item--important">
-                    <div class="news-date">10 Января 2024</div>
-                    <h3 class="news-item-title">Технические работы</h3>
-                    <p class="news-content">Плановые технические работы 20 января с 02:00 до 05:00.</p>
-                </article>
-                
-                <article class="news-item">
-                    <div class="news-date">5 Января 2024</div>
-                    <h3 class="news-item-title">Новый тариф</h3>
-                    <p class="news-content">Запуск нового тарифа "Премиум+" со скоростью до 1 Гбит/с!</p>
-                </article>
+                {{else}}
+                <p class="no-notifications">Нет новых уведомлений</p>
+                {{/each}}
             </div>
         </section>
     </div>

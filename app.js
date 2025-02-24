@@ -164,7 +164,21 @@ app.get('/history', requireAuth, (req, res) => {
 });
 
 app.get('/notifications', requireAuth, (req, res) => {
-    res.render('notifications');
+    db.query(
+        'SELECT notifications.id, notifications.importance, notifications.content, notifications.date FROM notifications',
+        (error, notifications) => {
+            if (error) {
+                console.error('Error fetching notifications:', error);
+                return res.render('notifications', { error: 'Unable to load notifications' });
+            }
+            // Convert MySQL datetime to formatted string
+            notifications = notifications.map(notification => ({
+                ...notification,
+                date: new Date(notification.date).toLocaleDateString('ru-RU')
+            }));
+            res.render('notifications', { notifications });
+        }
+    );
 });
 
 // Start server
