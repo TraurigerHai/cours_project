@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Биллинг и оплата</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        {{!-- Header такой же как и в других шаблонах --}}
+        <div class="header">
+            <a href="/" class="header-logo-link">
+                <div class="header-logo">🌐</div>
+            </a>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <div class="dropdown">
+                    <button class="nav-link nav-link--active dropdown-toggle">Личный кабинет</button>
+                    <div class="dropdown-menu">
+                        <a href="/profile" class="dropdown-item">Основная информация</a>
+                        <a href="/tariffs" class="dropdown-item">Управление тарифами</a>
+                        <a href="/billing" class="dropdown-item active">Биллинг и оплата</a>
+                        <a href="/support" class="dropdown-item">Поддержка</a>
+                        <a href="/connection" class="dropdown-item">Информация о подключении</a>
+                        <a href="/history" class="dropdown-item">История использования</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="auth-section">
+                <a href="/notifications" class="header-notification-link">
+                    <div class="header-notification">🔔</div>
+                </a>
+                <a href="/logout" class="auth-link">Выйти</a>
+            </div>
+        </div>
+
+        <div class="billing-section">
+            <div class="billing-header">
+                <h1 class="billing-title">Управление платежами</h1>
+            </div>
+
+            <div class="billing-content">
+                <!-- Карточка с балансом -->
+                <div class="billing-card balance-card">
+                    <h2 class="card-title">Текущий баланс</h2>
+                    <div class="balance-amount">{{balance}} ₽</div>
+                    <div class="balance-info">
+                        <div class="info-item">
+                            <span class="info-label">Следующее списание:</span>
+                            <span class="info-value">{{nextPaymentDate}}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Сумма списания:</span>
+                            <span class="info-value">{{nextPaymentAmount}} ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка пополнения -->
+                <div class="billing-card payment-card">
+                    <h2 class="card-title">Пополнить баланс</h2>
+                    <form class="payment-form" action="/billing/pay" method="POST">
+                        <div class="form-group">
+                            <label for="amount">Сумма пополнения</label>
+                            <div class="amount-input-group">
+                                <input type="number" id="amount" name="amount" min="1" value="{{defaultPaymentAmount}}" required>
+                                <span class="currency">₽</span>
+                            </div>
+                        </div>
+                        <div class="quick-amounts">
+                            <button type="button" class="amount-button" data-amount="100">100 ₽</button>
+                            <button type="button" class="amount-button" data-amount="300">300 ₽</button>
+                            <button type="button" class="amount-button" data-amount="500">500 ₽</button>
+                        </div>
+                        <div class="payment-methods">
+                            <h3>Способ оплаты</h3>
+                            <div class="payment-options">
+                                <label class="payment-option">
+                                    <input type="radio" name="payment_method" value="card" checked>
+                                    <span class="option-content">
+                                        <span class="option-icon">💳</span>
+                                        <span class="option-text">Банковская карта</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment_method" value="sbp">
+                                    <span class="option-content">
+                                        <span class="option-icon">📱</span>
+                                        <span class="option-text">Система быстрых платежей</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="payment-submit">Пополнить</button>
+                    </form>
+                </div>
+
+                <!-- Карточка автоплатежа -->
+                <div class="billing-card autopay-card">
+                    <h2 class="card-title">Автоплатеж</h2>
+                    <div class="autopay-status">
+                        <div class="status-indicator {{#if hasAutopay}}active{{/if}}"></div>
+                        <span class="status-text">{{#if hasAutopay}}Активен{{else}}Не подключен{{/if}}</span>
+                    </div>
+                    <p class="autopay-description">
+                        Автоматическое пополнение баланса при достижении минимальной суммы
+                    </p>
+                    <form class="autopay-form" action="/billing/autopay" method="POST">
+                        <div class="form-group">
+                            <label for="min_balance">Минимальный баланс</label>
+                            <div class="amount-input-group">
+                                <input type="number" id="min_balance" name="min_balance" min="0" value="{{autopayMinBalance}}" {{#if hasAutopay}}disabled{{/if}}>
+                                <span class="currency">₽</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="autopay_amount">Сумма пополнения</label>
+                            <div class="amount-input-group">
+                                <input type="number" id="autopay_amount" name="autopay_amount" min="1" value="{{autopayAmount}}" {{#if hasAutopay}}disabled{{/if}}>
+                                <span class="currency">₽</span>
+                            </div>
+                        </div>
+                        {{#if hasAutopay}}
+                        <button type="submit" class="autopay-submit autopay-disable">Отключить автоплатеж</button>
+                        {{else}}
+                        <button type="submit" class="autopay-submit">Подключить автоплатеж</button>
+                        {{/if}}
+                    </form>
+                </div>
+
+                <!-- История платежей -->
+                <div class="billing-card history-card">
+                    <h2 class="card-title">История платежей</h2>
+                    <div class="payment-history">
+                        {{#if paymentHistory}}
+                            {{#each paymentHistory}}
+                            <div class="history-item">
+                                <div class="history-info">
+                                    <span class="history-date">{{date}}</span>
+                                    <span class="history-type">{{type}}</span>
+                                </div>
+                                <span class="history-amount {{#if isDebit}}debit{{/if}}">
+                                    {{#if isDebit}}-{{else}}+{{/if}}{{amount}} ₽
+                                </span>
+                            </div>
+                            {{/each}}
+                        {{else}}
+                            <p class="no-history">История платежей пуста</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

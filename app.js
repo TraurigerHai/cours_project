@@ -158,7 +158,102 @@ app.get('/tariffs', requireAuth, (req, res) => {
 });
 
 app.get('/billing', requireAuth, (req, res) => {
-    res.render('billing');
+    const query = `
+        SELECT 
+            COALESCE(c.balance, 0) as balance,
+            c.next_payment_date,
+            COALESCE(t.price, 0) as next_payment_amount,
+            COALESCE(c.autopay, FALSE) as autopay,
+            COALESCE(c.autopay_min_balance, 100) as autopay_min_balance,
+            COALESCE(c.autopay_amount, 0) as autopay_amount
+        FROM contracts c
+        LEFT JOIN tariffplans t ON c.tariff_id = t.id
+        WHERE c.user_id = ?
+    `;
+
+    db.query(query, [req.session.userId], (error, results) => {
+        if (error) {
+            console.error('Error fetching billing data:', error);
+            return res.render('billing', { error: 'Unable to load billing data' });
+        }
+
+        // Получаем историю платежей
+        db.query(
+            'SELECT amount, type, date, is_debit FROM payments WHERE user_id = ? ORDER BY date DESC LIMIT 10',
+            [req.session.userId],
+            (error, paymentHistory) => {
+                if (error) {
+                    console.error('Error fetching payment history:', error);
+                    paymentHistory = [];
+                }
+
+                // Форматируем данные для отображения
+                const billingData = {
+                    balance: parseFloat(results[0]?.balance || 0).toFixed(2),
+                    nextPaymentDate: results[0]?.next_payment_date ? 
+                        new Date(results[0].next_payment_date).toLocaleDateString('ru-RU') : '-',
+                    nextPaymentAmount: parseFloat(results[0]?.next_payment_amount || 0).toFixed(2),
+                    hasAutopay: Boolean(results[0]?.autopay),
+                    autopayMinBalance: parseFloat(results[0]?.autopay_min_balance || 100).toFixed(2),
+                    autopayAmount: parseFloat(results[0]?.autopay_amount || results[0]?.next_payment_amount || 0).toFixed(2),
+                    defaultPaymentAmount: parseFloat(results[0]?.next_payment_amount || 100).toFixed(2), // Добавляем значение по умолчанию
+                    paymentHistory: (paymentHistory || []).map(payment => ({
+                        ...payment,
+                        amount: parseFloat(payment.amount).toFixed(2),
+                        date: new Date(payment.date).toLocaleDateString('ru-RU'),
+                        isDebit: Boolean(payment.is_debit)
+                    }))
+                };
+
+                res.render('billing', billingData);
+            }
+        );
+    });
+});
+
+// Обработка платежа
+app.post('/billing/pay', requireAuth, (req, res) => {
+    const { amount, payment_method } = req.body;
+    // Здесь должна быть логика обработки платежа
+    // Это демо-версия, просто обновляем баланс
+    db.query(
+        'UPDATE contracts SET balance = balance + ? WHERE user_id = ?',
+        [amount, req.session.userId],
+        (error) => {
+            if (error) {
+                console.error('Error processing payment:', error);
+                return res.redirect('/billing?error=payment_failed');
+            }
+            // Записываем платёж в историю
+            db.query(
+                'INSERT INTO payments (user_id, amount, type, is_debit) VALUES (?, ?, ?, ?)',
+                [req.session.userId, amount, `Пополнение ${payment_method}`, false],
+                (error) => {
+                    if (error) {
+                        console.error('Error saving payment history:', error);
+                    }
+                    res.redirect('/billing');
+                }
+            );
+        }
+    );
+});
+
+// Управление автоплатежом
+app.post('/billing/autopay', requireAuth, (req, res) => {
+    const { min_balance, autopay_amount } = req.body;
+    
+    db.query(
+        'UPDATE contracts SET autopay = NOT autopay, autopay_min_balance = ?, autopay_amount = ? WHERE user_id = ?',
+        [min_balance, autopay_amount, req.session.userId],
+        (error) => {
+            if (error) {
+                console.error('Error updating autopay settings:', error);
+                return res.redirect('/billing?error=autopay_failed');
+            }
+            res.redirect('/billing');
+        }
+    );
 });
 
 app.get('/support', requireAuth, (req, res) => {
