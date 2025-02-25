@@ -115,7 +115,17 @@ app.get('/profile', requireAuth, (req, res) => {
 // Utility function to fetch tariffs
 function getTariffs(callback) {
     db.query(
-        'SELECT id, name, limit_gb, speed, price FROM tariffplans WHERE name NOT LIKE "%Служебный%"',
+        `SELECT 
+            id, 
+            name, 
+            CASE 
+                WHEN limit_gb = 0 THEN 'Безлимитный'
+                ELSE limit_gb
+            END as limit_gb, 
+            speed, 
+            price 
+        FROM tariffplans 
+        WHERE name NOT LIKE "%Служебный%"`,
         (error, results) => {
             if (error) {
                 console.error('Error fetching tariffs:', error);
