@@ -7,14 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tariff-card__button').forEach(button => {
         button.addEventListener('click', function() {
             const tariffId = this.dataset.tariffId;
-            const tariffCard = this.closest('.tariff-card');
-            const tariffName = tariffCard.querySelector('.tariff-card__title').textContent;
-            const tariffSpeed = tariffCard.querySelector('.tariff-card__speed').textContent;
-            const tariffPrice = tariffCard.querySelector('.tariff-card__price').textContent;
             
             if (this.classList.contains('tariff-card__button--guest')) {
+                // Для гостей показываем модальное окно
+                const tariffCard = this.closest('.tariff-card');
+                const tariffName = tariffCard.querySelector('.tariff-card__title').textContent;
+                const tariffSpeed = tariffCard.querySelector('.tariff-card__speed').textContent;
+                const tariffPrice = tariffCard.querySelector('.tariff-card__price').textContent;
                 showGuestConnectionModal(tariffId, tariffName, tariffSpeed, tariffPrice);
             } else {
+                // Для авторизованных пользователей делаем редирект
                 window.location.href = `/tariffs?connect=${tariffId}`;
             }
         });

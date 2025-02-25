@@ -3,6 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.querySelector('.modal-content');
     const closeBtn = document.querySelector('.modal-close');
 
+    // Проверяем URL на наличие параметра connect
+    const urlParams = new URLSearchParams(window.location.search);
+    const connectTariffId = urlParams.get('connect');
+    
+    if (connectTariffId) {
+        // Ищем карточку тарифа по ID
+        const tariffCard = document.querySelector(`.tariff-card__button[data-tariff-id="${connectTariffId}"]`)?.closest('.tariff-card');
+        if (tariffCard) {
+            const tariffName = tariffCard.querySelector('.tariff-card__title').textContent;
+            const tariffSpeed = tariffCard.querySelector('.tariff-card__speed').textContent;
+            const tariffPrice = tariffCard.querySelector('.tariff-card__price').textContent;
+            showConnectionModal(connectTariffId, tariffName, tariffSpeed, tariffPrice);
+        }
+    }
+
     // Обработчик для кнопок подключения
     document.querySelectorAll('.tariff-card__button').forEach(button => {
         button.addEventListener('click', function() {
