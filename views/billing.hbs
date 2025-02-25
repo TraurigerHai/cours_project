@@ -131,7 +131,7 @@
 
                 <!-- История платежей -->
                 <div class="billing-card history-card">
-                    <h2 class="card-title">История платежей</h2>
+                    <h2 class="card-title">История пополнений</h2>
                     <div class="payment-history">
                         {{#if paymentHistory}}
                             {{#each paymentHistory}}
@@ -140,13 +140,11 @@
                                     <span class="history-date">{{date}}</span>
                                     <span class="history-type">{{type}}</span>
                                 </div>
-                                <span class="history-amount {{#if isDebit}}debit{{/if}}">
-                                    {{#if isDebit}}-{{else}}+{{/if}}{{amount}} ₽
-                                </span>
+                                <span class="history-amount">+{{amount}} ₽</span>
                             </div>
                             {{/each}}
                         {{else}}
-                            <p class="no-history">История платежей пуста</p>
+                            <p class="no-history">История пополнений пуста</p>
                         {{/if}}
                     </div>
                 </div>

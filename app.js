@@ -177,9 +177,9 @@ app.get('/billing', requireAuth, (req, res) => {
             return res.render('billing', { error: 'Unable to load billing data' });
         }
 
-        // Получаем историю платежей
+        // Изменяем запрос для получения только последних 5 пополнений (is_debit = false)
         db.query(
-            'SELECT amount, type, date, is_debit FROM payments WHERE user_id = ? ORDER BY date DESC LIMIT 10',
+            'SELECT amount, type, date, is_debit FROM payments WHERE user_id = ? AND is_debit = false ORDER BY date DESC LIMIT 5',
             [req.session.userId],
             (error, paymentHistory) => {
                 if (error) {
@@ -270,25 +270,6 @@ app.post('/tariffs/connect', (req, res) => {
     db.query(query, [tariffId, name, phone, address, comment], (error) => {
         if (error) {
             console.error('Error saving connection request:', error);
-            return res.status(500).json({ error: 'Failed to save request' });
-        }
-        res.json({ success: true });
-    });
-});
-
-// Обработка заявки на подключение от гостя
-app.post('/tariffs/guest-connect', (req, res) => {
-    const { tariffId, name, phone, email, address, comment } = req.body;
-    
-    const query = `
-        INSERT INTO connection_requests 
-        (tariff_id, client_name, phone, email, address, comment, status, is_guest) 
-        VALUES (?, ?, ?, ?, ?, ?, 'new', true)
-    `;
-    
-    db.query(query, [tariffId, name, phone, email, address, comment], (error) => {
-        if (error) {
-            console.error('Error saving guest connection request:', error);
             return res.status(500).json({ error: 'Failed to save request' });
         }
         res.json({ success: true });
