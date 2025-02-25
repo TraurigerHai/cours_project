@@ -256,6 +256,45 @@ app.post('/billing/autopay', requireAuth, (req, res) => {
     );
 });
 
+// Обработка заявки на подключение
+app.post('/tariffs/connect', (req, res) => {
+    const { tariffId, name, phone, address, comment } = req.body;
+    
+    // Сохраняем заявку в базу данных
+    const query = `
+        INSERT INTO connection_requests 
+        (tariff_id, client_name, phone, address, comment, status) 
+        VALUES (?, ?, ?, ?, ?, 'new')
+    `;
+    
+    db.query(query, [tariffId, name, phone, address, comment], (error) => {
+        if (error) {
+            console.error('Error saving connection request:', error);
+            return res.status(500).json({ error: 'Failed to save request' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// Обработка заявки на подключение от гостя
+app.post('/tariffs/guest-connect', (req, res) => {
+    const { tariffId, name, phone, email, address, comment } = req.body;
+    
+    const query = `
+        INSERT INTO connection_requests 
+        (tariff_id, client_name, phone, email, address, comment, status, is_guest) 
+        VALUES (?, ?, ?, ?, ?, ?, 'new', true)
+    `;
+    
+    db.query(query, [tariffId, name, phone, email, address, comment], (error) => {
+        if (error) {
+            console.error('Error saving guest connection request:', error);
+            return res.status(500).json({ error: 'Failed to save request' });
+        }
+        res.json({ success: true });
+    });
+});
+
 app.get('/support', requireAuth, (req, res) => {
     res.render('support');
 });

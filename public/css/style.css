@@ -1030,3 +1030,320 @@ body {
 }
 
 /* ...existing code... */
+
+/* Обновленные стили модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+    animation: modalFadeIn 0.3s ease;
+    overflow-y: auto; /* Добавляем прокрутку */
+    padding: 20px; /* Отступы для мобильных устройств */
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--color-white);
+    margin: 2rem auto; /* Изменено с процентов на rem */
+    padding: 2.5rem;
+    width: 95%;
+    max-width: 550px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: modalSlideIn 0.3s ease forwards;
+}
+
+.modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--color-white);
+    background: var(--color-primary);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.modal-close:hover {
+    background: var(--color-accent);
+    transform: rotate(90deg);
+}
+
+/* Обновленные стили для информации о тарифе */
+.tariff-info {
+    background: var(--gradient-primary);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;   
+    color: var(--color-text);
+    text-align: center;
+    box-shadow: var(--shadow-default);
+}
+
+.tariff-info h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+}
+
+.tariff-info p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0.7rem 0;
+}
+
+/* Обновленные стили формы */
+.connection-form {
+    margin-top: 2rem;
+}
+
+.connection-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.connection-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.connection-form input,
+.connection-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--color-surface);
+}
+
+.connection-form input:focus,
+.connection-form textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.connection-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 1.5rem 0;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-primary);
+    border-radius: 4px;
+}
+
+.form-checkbox label {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Адаптивность для маленьких экранов */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 2rem 1.5rem;
+        margin: 1rem auto;
+    }
+
+    .tariff-info {
+        padding: 1.5rem;
+    }
+
+    .tariff-info h3 {
+        font-size: 1.5rem;
+    }
+
+    .tariff-info p {
+        font-size: 1rem;
+    }
+}
+
+/* ...existing code... */
+
+/* Обновленные стили модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--color-white);
+    margin: 5% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
+}
+
+.modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-white);
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: var(--color-accent);
+}
+
+.connection-form {
+    margin-top: 2rem;
+}
+
+.tariff-info {
+    background: var(--color-surface);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+}
+
+.tariff-info h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* Стили сообщений */
+.message {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    animation: slideIn 0.3s ease;
+    z-index: 1001;
+}
+
+.success-message {
+    background-color: #4caf50;
+    color: white;
+}
+
+.error-message {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.tariff-card__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.tariff-card__notice {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+.tariff-card__login-link {
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-align: center;
+    text-decoration: none;
+}
+
+.tariff-card__login-link:hover {
+    text-decoration: underline;
+}
+
+.tariff-card__button--guest {
+    background-color: var(--color-secondary);
+}
+
+.form-checkbox {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: auto;
+}
+
+.form-hint {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.2rem;
+}
+
+/* ...existing code... */
