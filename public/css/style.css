@@ -555,7 +555,6 @@ body {
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 5px);
     left: 0;
     background-color: var(--color-white);
     min-width: 250px;
