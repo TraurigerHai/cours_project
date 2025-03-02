@@ -306,6 +306,60 @@ app.get('/notifications', requireAuth, (req, res) => {
     );
 });
 
+app.post('/profile/update', requireAuth, (req, res) => {
+    const { login, email, password } = req.body;
+    const userId = req.session.userId;
+
+    // Проверяем, не занят ли логин другим пользователем
+    db.query('SELECT id FROM users WHERE login = ? AND id != ?', [login, userId], (error, results) => {
+        if (error) {
+            return res.json({
+                success: false,
+                error: 'Ошибка при проверке логина'
+            });
+        }
+
+        if (results.length > 0) {
+            return res.json({
+                success: false,
+                error: 'Этот логин уже занят'
+            });
+        }
+
+        // Формируем запрос на обновление
+        let query = 'UPDATE users SET login = ?, email = ?';
+        let params = [login, email];
+
+        // Добавляем пароль к обновлению, если он предоставлен
+        if (password) {
+            query += ', password = ?';
+            params.push(password);
+        }
+
+        query += ' WHERE id = ?';
+        params.push(userId);
+
+        // Выполняем обновление
+        db.query(query, params, (error, results) => {
+            if (error) {
+                console.error('Error updating profile:', error);
+                return res.json({
+                    success: false,
+                    error: 'Ошибка при обновлении профиля'
+                });
+            }
+
+            // Обновляем логин в сессии
+            req.session.userLogin = login;
+
+            res.json({
+                success: true,
+                message: 'Профиль успешно обновлен'
+            });
+        });
+    });
+});
+
 // Start server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

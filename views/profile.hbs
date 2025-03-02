@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль пользователя</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/profile.js"></script>
 </head>
 <body>
     <div class="container">
@@ -53,7 +54,7 @@
                         <p>{{contract.number}}</p>
                     </div>
                     {{/if}}
-                    <button class="edit-button">Редактировать</button>
+                    <button class="edit-button" onclick="showEditModal()">Редактировать</button>
                 </div>
 
                 <div class="profile-tariff">
@@ -87,6 +88,33 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeEditModal()">&times;</span>
+            <h2>Редактирование профиля</h2>
+            <form id="editProfileForm" class="edit-profile-form">
+                <div class="form-group">
+                    <label for="editLogin">Логин:</label>
+                    <input type="text" id="editLogin" name="login" value="{{user.login}}">
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="email" value="{{user.email}}">
+                </div>
+                <div class="form-group">
+                    <label for="editPassword">Новый пароль:</label>
+                    <input type="password" id="editPassword" name="password" minlength="6">
+                    <span class="form-hint">Оставьте пустым, если не хотите менять пароль</span>
+                </div>
+                <div class="form-group">
+                    <label for="editPasswordConfirm">Подтверждение пароля:</label>
+                    <input type="password" id="editPasswordConfirm" name="passwordConfirm">
+                </div>
+                <button type="submit" class="submit-button">Сохранить изменения</button>
+            </form>
         </div>
     </div>
 </body>
