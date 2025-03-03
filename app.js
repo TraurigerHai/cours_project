@@ -4,7 +4,7 @@ const db = require('./config/database');
 const session = require('express-session');
 
 const app = express();
-const port = 4000;
+const port = 3000;
 
 // Middleware
 app.use(express.json());

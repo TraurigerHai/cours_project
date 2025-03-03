@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль пользователя</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="/js/profile.js"></script>
 </head>
 <body>
@@ -54,7 +55,12 @@
                         <p>{{contract.number}}</p>
                     </div>
                     {{/if}}
-                    <button class="edit-button" onclick="showEditModal()">Редактировать</button>
+                    <div class="profile-actions">
+                        <button class="edit-button" onclick="showEditModal()">Редактировать</button>
+                        <button class="download-button" onclick="generateProfilePDF()">
+                            <span class="button-icon">📄</span> Скачать PDF
+                        </button>
+                    </div>
                 </div>
 
                 <div class="profile-tariff">
