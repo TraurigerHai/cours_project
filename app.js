@@ -4,9 +4,8 @@ const db = require('./config/database');
 const session = require('express-session');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,21 +13,18 @@ app.use(session({
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // set to true if using HTTPS
+    cookie: { secure: false }
 }));
 
-// Add middleware to make user data available to all views
 app.use((req, res, next) => {
     res.locals.userId = req.session.userId;
     res.locals.userLogin = req.session.userLogin;
     next();
 });
 
-// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// Middleware to check if user is authenticated
 const requireAuth = (req, res, next) => {
     if (req.session.userId) {
         next();
@@ -112,7 +108,6 @@ app.get('/profile', requireAuth, (req, res) => {
     });
 });
 
-// Utility function to fetch tariffs
 function getTariffs(callback) {
     db.query(
         `SELECT 
@@ -137,7 +132,6 @@ function getTariffs(callback) {
     );
 }
 
-// Modify root route to include tariffs
 app.get('/', (req, res) => {
     getTariffs((error, tariffs) => {
         if (error) {
@@ -147,7 +141,6 @@ app.get('/', (req, res) => {
     });
 });
 
-// Modify tariffs route
 app.get('/tariffs', requireAuth, (req, res) => {
     getTariffs((error, tariffs) => {
         if (error) {
@@ -177,7 +170,6 @@ app.get('/billing', requireAuth, (req, res) => {
             return res.render('billing', { error: 'Unable to load billing data' });
         }
 
-        // Изменяем запрос для получения только последних 5 пополнений (is_debit = false)
         db.query(
             'SELECT amount, type, date, is_debit FROM payments WHERE user_id = ? AND is_debit = false ORDER BY date DESC LIMIT 5',
             [req.session.userId],
@@ -187,7 +179,6 @@ app.get('/billing', requireAuth, (req, res) => {
                     paymentHistory = [];
                 }
 
-                // Форматируем данные для отображения
                 const billingData = {
                     balance: parseFloat(results[0]?.balance || 0).toFixed(2),
                     nextPaymentDate: results[0]?.next_payment_date ? 
@@ -196,7 +187,7 @@ app.get('/billing', requireAuth, (req, res) => {
                     hasAutopay: Boolean(results[0]?.autopay),
                     autopayMinBalance: parseFloat(results[0]?.autopay_min_balance || 100).toFixed(2),
                     autopayAmount: parseFloat(results[0]?.autopay_amount || results[0]?.next_payment_amount || 0).toFixed(2),
-                    defaultPaymentAmount: parseFloat(results[0]?.next_payment_amount || 100).toFixed(2), // Добавляем значение по умолчанию
+                    defaultPaymentAmount: parseFloat(results[0]?.next_payment_amount || 100).toFixed(2),
                     paymentHistory: (paymentHistory || []).map(payment => ({
                         ...payment,
                         amount: parseFloat(payment.amount).toFixed(2),
@@ -211,11 +202,9 @@ app.get('/billing', requireAuth, (req, res) => {
     });
 });
 
-// Обработка платежа
 app.post('/billing/pay', requireAuth, (req, res) => {
     const { amount, payment_method } = req.body;
-    // Здесь должна быть логика обработки платежа
-    // Это демо-версия, просто обновляем баланс
+    
     db.query(
         'UPDATE contracts SET balance = balance + ? WHERE user_id = ?',
         [amount, req.session.userId],
@@ -224,7 +213,6 @@ app.post('/billing/pay', requireAuth, (req, res) => {
                 console.error('Error processing payment:', error);
                 return res.redirect('/billing?error=payment_failed');
             }
-            // Записываем платёж в историю
             db.query(
                 'INSERT INTO payments (user_id, amount, type, is_debit) VALUES (?, ?, ?, ?)',
                 [req.session.userId, amount, `Пополнение ${payment_method}`, false],
@@ -239,7 +227,6 @@ app.post('/billing/pay', requireAuth, (req, res) => {
     );
 });
 
-// Управление автоплатежом
 app.post('/billing/autopay', requireAuth, (req, res) => {
     const { min_balance, autopay_amount } = req.body;
     
@@ -256,11 +243,9 @@ app.post('/billing/autopay', requireAuth, (req, res) => {
     );
 });
 
-// Обработка заявки на подключение
 app.post('/tariffs/connect', (req, res) => {
     const { tariffId, name, phone, address, comment } = req.body;
     
-    // Сохраняем заявку в базу данных
     const query = `
         INSERT INTO connection_requests 
         (tariff_id, client_name, phone, address, comment, status) 
@@ -296,7 +281,6 @@ app.get('/notifications', requireAuth, (req, res) => {
                 console.error('Error fetching notifications:', error);
                 return res.render('notifications', { error: 'Unable to load notifications' });
             }
-            // Convert MySQL datetime to formatted string
             notifications = notifications.map(notification => ({
                 ...notification,
                 date: new Date(notification.date).toLocaleDateString('ru-RU')
@@ -310,7 +294,6 @@ app.post('/profile/update', requireAuth, (req, res) => {
     const { login, email, password } = req.body;
     const userId = req.session.userId;
 
-    // Проверяем, не занят ли логин другим пользователем
     db.query('SELECT id FROM users WHERE login = ? AND id != ?', [login, userId], (error, results) => {
         if (error) {
             return res.json({
@@ -326,11 +309,9 @@ app.post('/profile/update', requireAuth, (req, res) => {
             });
         }
 
-        // Формируем запрос на обновление
         let query = 'UPDATE users SET login = ?, email = ?';
         let params = [login, email];
 
-        // Добавляем пароль к обновлению, если он предоставлен
         if (password) {
             query += ', password = ?';
             params.push(password);
@@ -339,7 +320,6 @@ app.post('/profile/update', requireAuth, (req, res) => {
         query += ' WHERE id = ?';
         params.push(userId);
 
-        // Выполняем обновление
         db.query(query, params, (error, results) => {
             if (error) {
                 console.error('Error updating profile:', error);
@@ -349,7 +329,6 @@ app.post('/profile/update', requireAuth, (req, res) => {
                 });
             }
 
-            // Обновляем логин в сессии
             req.session.userLogin = login;
 
             res.json({
@@ -360,7 +339,6 @@ app.post('/profile/update', requireAuth, (req, res) => {
     });
 });
 
-// Start server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

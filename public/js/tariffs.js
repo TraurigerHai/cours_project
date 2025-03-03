@@ -3,12 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.querySelector('.modal-content');
     const closeBtn = document.querySelector('.modal-close');
 
-    // Проверяем URL на наличие параметра connect
     const urlParams = new URLSearchParams(window.location.search);
     const connectTariffId = urlParams.get('connect');
     
     if (connectTariffId) {
-        // Ищем карточку тарифа по ID
         const tariffCard = document.querySelector(`.tariff-card__button[data-tariff-id="${connectTariffId}"]`)?.closest('.tariff-card');
         if (tariffCard) {
             const tariffName = tariffCard.querySelector('.tariff-card__title').textContent;
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Обработчик для кнопок подключения
     document.querySelectorAll('.tariff-card__button').forEach(button => {
         button.addEventListener('click', function() {
             const tariffId = this.dataset.tariffId;
@@ -30,21 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие модального окна
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
     }
 
-    // Закрытие по клику вне модального окна
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
     });
 
-    // Обработка отправки формы
     const connectionForm = document.getElementById('connectionForm');
     if (connectionForm) {
         connectionForm.addEventListener('submit', async (e) => {

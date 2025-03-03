@@ -13,7 +13,6 @@ function closeEditModal() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Обработчик клика вне модального окна
     window.addEventListener('click', function(event) {
         const modal = document.getElementById('editProfileModal');
         if (event.target === modal) {
@@ -21,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Обработчик формы
     const editProfileForm = document.getElementById('editProfileForm');
     if (editProfileForm) {
         editProfileForm.addEventListener('submit', async function(e) {
@@ -31,13 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const password = document.getElementById('editPassword').value;
             const passwordConfirm = document.getElementById('editPasswordConfirm').value;
 
-            // Валидация логина
             if (login.length < 3) {
                 showErrorMessage('Логин должен содержать минимум 3 символа');
                 return;
             }
 
-            // Валидация паролей
             if (password && password !== passwordConfirm) {
                 showErrorMessage('Пароли не совпадают');
                 return;
@@ -91,27 +87,19 @@ function generateProfilePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Set font
     doc.setFont('helvetica', 'normal');
-    
-    // Add header
     doc.setFontSize(20);
     doc.text('User Profile Data', 20, 20);
-    
-    // Add logo
     doc.setFontSize(24);
     doc.text('🌐', 180, 20);
     
-    // Add generation date
-    doc.setFontSize(10);
     const currentDate = new Date().toLocaleDateString('en-US');
+    doc.setFontSize(10);
     doc.text(`Generated on: ${currentDate}`, 20, 30);
     
-    // Add line
     doc.setLineWidth(0.5);
     doc.line(20, 35, 190, 35);
 
-    // Get user data safely by direct label matching
     const infoGroups = document.querySelectorAll('.info-group');
     const userInfo = {
         login: '',
@@ -128,7 +116,6 @@ function generateProfilePDF() {
         if (label.includes('договора')) userInfo.contract = value;
     });
 
-    // Add personal information
     doc.setFontSize(16);
     doc.text('Personal Information:', 20, 50);
     
@@ -137,7 +124,6 @@ function generateProfilePDF() {
     doc.text(`Email: ${userInfo.email}`, 30, 70);
     doc.text(`Contract Number: ${userInfo.contract}`, 30, 80);
 
-    // Get tariff data safely
     const tariffSection = document.querySelector('.profile-tariff');
     let tariffInfo = null;
 
@@ -150,7 +136,6 @@ function generateProfilePDF() {
         };
     }
 
-    // Add tariff information if exists
     if (tariffInfo) {
         doc.setFontSize(16);
         doc.text('Tariff Information:', 20, 100);
@@ -165,7 +150,6 @@ function generateProfilePDF() {
         doc.text('No active tariff', 30, 100);
     }
 
-    // Get statistics safely
     const statsItems = document.querySelectorAll('.stat-item');
     const stats = {
         balance: 'Not specified',
@@ -180,7 +164,6 @@ function generateProfilePDF() {
         if (label.includes('дата')) stats.paymentDate = value;
     });
 
-    // Add account statistics
     doc.setFontSize(16);
     doc.text('Account Statistics:', 20, 160);
     
@@ -188,12 +171,10 @@ function generateProfilePDF() {
     doc.text(`Balance: ${stats.balance}`, 30, 170);
     doc.text(`Payment Date: ${stats.paymentDate}`, 30, 180);
 
-    // Add footer
     doc.setFontSize(10);
     doc.text('This document was generated automatically', 20, 280);
     doc.text(currentDate, 20, 290);
 
-    // Save the PDF
     const fileName = `profile_${userInfo.login.replace(/\s+/g, '_')}_${currentDate.replace(/\//g, '-')}.pdf`;
     doc.save(fileName);
 }
