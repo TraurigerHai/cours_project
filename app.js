@@ -82,17 +82,16 @@ app.get('/logout', (req, res) => {
 app.get('/profile', requireAuth, (req, res) => {
     const query = `
         SELECT 
-            u.*,
             c.contract_number,
+            c.full_name,
             c.balance,
             c.contract_status,
             t.name as tariff_name,
             t.speed,
             t.price
-        FROM users u
-        LEFT JOIN contracts c ON u.id = c.user_id
+        FROM contracts c
         LEFT JOIN tariffplans t ON c.tariff_id = t.id
-        WHERE u.id = ?
+        WHERE c.user_id = ?
     `;
 
     db.query(query, [req.session.userId], (error, results) => {
@@ -101,7 +100,9 @@ app.get('/profile', requireAuth, (req, res) => {
             return res.redirect('/login');
         }
         res.render('profile', { 
-            user: results[0],
+            user: {
+                full_name: results[0].full_name
+            },
             contract: {
                 number: results[0].contract_number,
                 status: results[0].contract_status,
@@ -299,50 +300,32 @@ app.get('/notifications', requireAuth, (req, res) => {
 });
 
 app.post('/profile/update', requireAuth, (req, res) => {
-    const { login, email, password } = req.body;
+    const { full_name, password } = req.body;
     const userId = req.session.userId;
 
-    db.query('SELECT id FROM users WHERE login = ? AND id != ?', [login, userId], (error, results) => {
+    let query = 'UPDATE contracts SET full_name = ?';
+    let params = [full_name];
+
+    if (password) {
+        query += ', password = ?';
+        params.push(password);
+    }
+
+    query += ' WHERE user_id = ?';
+    params.push(userId);
+
+    db.query(query, params, (error, results) => {
         if (error) {
+            console.error('Error updating profile:', error);
             return res.json({
                 success: false,
-                error: 'Ошибка при проверке логина'
+                error: 'Ошибка при обновлении профиля'
             });
         }
 
-        if (results.length > 0) {
-            return res.json({
-                success: false,
-                error: 'Этот логин уже занят'
-            });
-        }
-
-        let query = 'UPDATE users SET login = ?, email = ?';
-        let params = [login, email];
-
-        if (password) {
-            query += ', password = ?';
-            params.push(password);
-        }
-
-        query += ' WHERE id = ?';
-        params.push(userId);
-
-        db.query(query, params, (error, results) => {
-            if (error) {
-                console.error('Error updating profile:', error);
-                return res.json({
-                    success: false,
-                    error: 'Ошибка при обновлении профиля'
-                });
-            }
-
-            req.session.userLogin = login;
-
-            res.json({
-                success: true,
-                message: 'Профиль успешно обновлен'
-            });
+        res.json({
+            success: true,
+            message: 'Профиль успешно обновлен'
         });
     });
 });

@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
         editProfileForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const login = document.getElementById('editLogin').value;
+            const fullName = document.getElementById('editFullName').value;
             const password = document.getElementById('editPassword').value;
             const passwordConfirm = document.getElementById('editPasswordConfirm').value;
 
-            if (login.length < 3) {
-                showErrorMessage('Логин должен содержать минимум 3 символа');
+            if (fullName.trim().length < 2) {
+                showErrorMessage('ФИО должно содержать минимум 2 символа');
                 return;
             }
 

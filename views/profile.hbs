@@ -42,19 +42,13 @@
                 <div class="profile-info">
                     <h2 class="section-title">Личные данные</h2>
                     <div class="info-group">
-                        <label>Логин:</label>
-                        <p>{{user.login}}</p>
-                    </div>
-                    <div class="info-group">
-                        <label>Email:</label>
-                        <p>{{user.email}}</p>
-                    </div>
-                    {{#if contract.number}}
-                    <div class="info-group">
                         <label>Номер договора:</label>
                         <p>{{contract.number}}</p>
                     </div>
-                    {{/if}}
+                    <div class="info-group">
+                        <label>ФИО:</label>
+                        <p>{{user.full_name}}</p>
+                    </div>
                     <div class="profile-actions">
                         <button class="edit-button" onclick="showEditModal()">Редактировать</button>
                         <button class="download-button" onclick="generateProfilePDF()">
@@ -103,12 +97,8 @@
             <h2>Редактирование профиля</h2>
             <form id="editProfileForm" class="edit-profile-form">
                 <div class="form-group">
-                    <label for="editLogin">Логин:</label>
-                    <input type="text" id="editLogin" name="login" value="{{user.login}}">
-                </div>
-                <div class="form-group">
-                    <label for="editEmail">Email:</label>
-                    <input type="email" id="editEmail" name="email" value="{{user.email}}">
+                    <label for="editFullName">ФИО:</label>
+                    <input type="text" id="editFullName" name="full_name" value="{{user.full_name}}" required>
                 </div>
                 <div class="form-group">
                     <label for="editPassword">Новый пароль:</label>
