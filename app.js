@@ -17,7 +17,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-    res.locals.userId = req.session.userId;
+    res.locals.userId = req.session.contractId;
     res.locals.contractNumber = req.session.contractNumber;
     res.locals.userLogin = req.session.userLogin;
     next();
@@ -27,7 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 const requireAuth = (req, res, next) => {
-    if (req.session.userId) {
+    if (req.session.contractId) {
         next();
     } else {
         res.redirect('/login');
@@ -46,13 +46,7 @@ app.post('/login', (req, res) => {
     const { contract_number, password } = req.body;
     
     db.query(
-        `SELECT 
-            c.user_id,
-            c.contract_number,
-            u.login 
-        FROM contracts c 
-        JOIN users u ON c.user_id = u.id 
-        WHERE c.contract_number = ? AND c.password = ?`,
+        'SELECT id, contract_number FROM contracts WHERE contract_number = ? AND password = ?',
         [contract_number, password],
         (error, results) => {
             if (error) {
@@ -62,9 +56,8 @@ app.post('/login', (req, res) => {
             }
 
             if (results.length > 0) {
-                req.session.userId = results[0].user_id;
+                req.session.contractId = results[0].id;
                 req.session.contractNumber = results[0].contract_number;
-                req.session.userLogin = results[0].login;
                 res.redirect('/profile');
             } else {
                 req.session.error = 'Неверный номер договора или пароль';
@@ -82,19 +75,19 @@ app.get('/logout', (req, res) => {
 app.get('/profile', requireAuth, (req, res) => {
     const query = `
         SELECT 
-            c.contract_number,
-            c.full_name,
-            c.balance,
-            c.contract_status,
+            contract_number,
+            full_name,
+            balance,
+            contract_status,
             t.name as tariff_name,
             t.speed,
             t.price
         FROM contracts c
         LEFT JOIN tariffplans t ON c.tariff_id = t.id
-        WHERE c.user_id = ?
+        WHERE c.id = ?
     `;
 
-    db.query(query, [req.session.userId], (error, results) => {
+    db.query(query, [req.session.contractId], (error, results) => {
         if (error || results.length === 0) {
             console.error('Error fetching profile data:', error);
             return res.redirect('/login');
@@ -162,26 +155,26 @@ app.get('/tariffs', requireAuth, (req, res) => {
 app.get('/billing', requireAuth, (req, res) => {
     const query = `
         SELECT 
-            COALESCE(c.balance, 0) as balance,
-            c.next_payment_date,
+            COALESCE(balance, 0) as balance,
+            next_payment_date,
             COALESCE(t.price, 0) as next_payment_amount,
-            COALESCE(c.autopay, FALSE) as autopay,
-            COALESCE(c.autopay_min_balance, 100) as autopay_min_balance,
-            COALESCE(c.autopay_amount, 0) as autopay_amount
+            COALESCE(autopay, FALSE) as autopay,
+            COALESCE(autopay_min_balance, 100) as autopay_min_balance,
+            COALESCE(autopay_amount, 0) as autopay_amount
         FROM contracts c
         LEFT JOIN tariffplans t ON c.tariff_id = t.id
-        WHERE c.user_id = ?
+        WHERE c.id = ?
     `;
 
-    db.query(query, [req.session.userId], (error, results) => {
+    db.query(query, [req.session.contractId], (error, results) => {
         if (error) {
             console.error('Error fetching billing data:', error);
             return res.render('billing', { error: 'Unable to load billing data' });
         }
 
         db.query(
-            'SELECT amount, type, date, is_debit FROM payments WHERE user_id = ? AND is_debit = false ORDER BY date DESC LIMIT 5',
-            [req.session.userId],
+            'SELECT amount, payment_type, date, is_debit FROM payments WHERE contract_id = ? AND is_debit = false ORDER BY date DESC LIMIT 5',
+            [req.session.contractId],
             (error, paymentHistory) => {
                 if (error) {
                     console.error('Error fetching payment history:', error);
@@ -215,16 +208,16 @@ app.post('/billing/pay', requireAuth, (req, res) => {
     const { amount, payment_method } = req.body;
     
     db.query(
-        'UPDATE contracts SET balance = balance + ? WHERE user_id = ?',
-        [amount, req.session.userId],
+        'UPDATE contracts SET balance = balance + ? WHERE id = ?',
+        [amount, req.session.contractId],
         (error) => {
             if (error) {
                 console.error('Error processing payment:', error);
                 return res.redirect('/billing?error=payment_failed');
             }
             db.query(
-                'INSERT INTO payments (user_id, amount, type, is_debit) VALUES (?, ?, ?, ?)',
-                [req.session.userId, amount, `Пополнение ${payment_method}`, false],
+                'INSERT INTO payments (contract_id, amount, payment_type, is_debit) VALUES (?, ?, ?, ?)',
+                [req.session.contractId, amount, `Пополнение ${payment_method}`, false],
                 (error) => {
                     if (error) {
                         console.error('Error saving payment history:', error);
@@ -240,8 +233,8 @@ app.post('/billing/autopay', requireAuth, (req, res) => {
     const { min_balance, autopay_amount } = req.body;
     
     db.query(
-        'UPDATE contracts SET autopay = NOT autopay, autopay_min_balance = ?, autopay_amount = ? WHERE user_id = ?',
-        [min_balance, autopay_amount, req.session.userId],
+        'UPDATE contracts SET autopay = NOT autopay, autopay_min_balance = ?, autopay_amount = ? WHERE id = ?',
+        [min_balance, autopay_amount, req.session.contractId],
         (error) => {
             if (error) {
                 console.error('Error updating autopay settings:', error);
