@@ -1065,7 +1065,7 @@ body {
 .modal-content {
     position: relative;
     background-color: var(--color-white);
-    margin: 2rem auto; /* Изменено с процентов на rem */
+    margin: 5% auto; /* Изменено с процентов на rem */
     padding: 2.5rem;
     width: 95%;
     max-width: 550px;
@@ -1331,7 +1331,7 @@ body {
 
 .modal-content {
     background-color: var(--color-white);
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 2rem;
     border-radius: var(--border-radius);
     width: 90%;
@@ -1443,6 +1443,16 @@ body {
 
 .button-icon {
     font-size: 1.2rem;
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.form-static-text {
+    padding: 0.8rem 0;
+    color: var(--color-text);
+    font-weight: 500;
 }
 
 /* ...existing code... */

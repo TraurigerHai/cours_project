@@ -148,7 +148,26 @@ app.get('/tariffs', requireAuth, (req, res) => {
         if (error) {
             return res.render('tariffs', { error: 'Unable to load tariffs' });
         }
-        res.render('tariffs', { tariffs });
+
+        // Получаем данные пользователя
+        db.query(
+            'SELECT full_name, phone FROM contracts WHERE id = ?',
+            [req.session.contractId],
+            (error, userData) => {
+                if (error) {
+                    console.error('Error fetching user data:', error);
+                    return res.render('tariffs', { 
+                        error: 'Unable to load user data',
+                        tariffs 
+                    });
+                }
+
+                res.render('tariffs', { 
+                    tariffs,
+                    user: userData[0]
+                });
+            }
+        );
     });
 });
 

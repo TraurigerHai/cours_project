@@ -59,17 +59,19 @@
         <div id="connectionModal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>
-                <h2>Оставить заявку на подключение</h2>
+                <h2>Подключение тарифа</h2>
                 <div class="tariff-info"></div>
                 <form id="connectionForm" class="connection-form">
                     <input type="hidden" name="tariffId" value="">
                     <div class="form-group">
-                        <label for="name">Ваше имя*</label>
-                        <input type="text" id="name" name="name" required>
+                        <label>ФИО:</label>
+                        <p class="form-static-text">{{user.full_name}}</p>
+                        <input type="hidden" name="name" value="{{user.full_name}}">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Телефон*</label>
-                        <input type="tel" id="phone" name="phone" required>
+                        <label>Телефон:</label>
+                        <p class="form-static-text">{{user.phone}}</p>
+                        <input type="hidden" name="phone" value="{{user.phone}}">
                     </div>
                     <div class="form-group">
                         <label for="address">Адрес подключения*</label>
