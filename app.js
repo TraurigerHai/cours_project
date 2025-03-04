@@ -18,6 +18,7 @@ app.use(session({
 
 app.use((req, res, next) => {
     res.locals.userId = req.session.userId;
+    res.locals.contractNumber = req.session.contractNumber;
     res.locals.userLogin = req.session.userLogin;
     next();
 });
@@ -42,11 +43,17 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const { login, password } = req.body;
+    const { contract_number, password } = req.body;
     
     db.query(
-        'SELECT * FROM users WHERE login = ? AND password = ?',
-        [login, password],
+        `SELECT 
+            c.user_id,
+            c.contract_number,
+            u.login 
+        FROM contracts c 
+        JOIN users u ON c.user_id = u.id 
+        WHERE c.contract_number = ? AND c.password = ?`,
+        [contract_number, password],
         (error, results) => {
             if (error) {
                 console.error('Database error:', error);
@@ -55,11 +62,12 @@ app.post('/login', (req, res) => {
             }
 
             if (results.length > 0) {
-                req.session.userId = results[0].id;
+                req.session.userId = results[0].user_id;
+                req.session.contractNumber = results[0].contract_number;
                 req.session.userLogin = results[0].login;
                 res.redirect('/profile');
             } else {
-                req.session.error = 'Неверный логин или пароль';
+                req.session.error = 'Неверный номер договора или пароль';
                 res.redirect('/login');
             }
         }
