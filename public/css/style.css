@@ -9,6 +9,8 @@
     --color-accent: #e74c3c;
     --color-success: #4caf50;
     --color-white: #ffffff;
+    --color-surface: #f9f9f9;
+    --color-border: #e0e0e0;
     --color-text: #333333;
     --color-text-light: #666666;
     
@@ -52,6 +54,7 @@ body {
     backdrop-filter: blur(4px);
     z-index: 1000;
     padding: var(--spacing);
+    overflow-y: auto;
 }
 
 .modal-content {
@@ -63,6 +66,7 @@ body {
     max-width: var(--modal-width);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-secondary);
+    animation: modalSlideIn 0.3s ease forwards;
 }
 
 .modal-close {
@@ -75,13 +79,18 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: var(--color-white);
-    border-radius: 50%;
     cursor: pointer;
+    color: var(--color-white);
+    background: var(--color-primary);
+    border-radius: 50%;
     transition: var(--transition);
+    z-index: 1;
 }
 
-/* ...existing code... */
+.modal-close:hover {
+    background: var(--color-accent);
+    transform: rotate(90deg);
+}
 
 .header {
     display: flex;
@@ -333,7 +342,7 @@ body {
 .tariff-card__price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--color-text);
+    color: var (--color-text);
 }
 
 .tariff-card__button {
@@ -501,8 +510,6 @@ body {
     color: var(--color-text);
 }
 
-/* ...existing code... */
-
 .error-message {
     color: var(--color-accent);
     background-color: #fff5f5;
@@ -511,8 +518,6 @@ body {
     text-align: center;
     margin-bottom: 1rem;
 }
-
-/* ...existing code... */
 
 .header {
     flex-direction: row;
@@ -525,8 +530,6 @@ body {
     height: 50px;
     flex-wrap: nowrap;
 }
-
-/* ...existing code... */
 
 /* Dropdown styles */
 .dropdown {
@@ -706,8 +709,6 @@ body {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
-
-/* ...existing code... */
 
 /* Стили для страницы биллинга */
 .billing-section {
@@ -947,58 +948,12 @@ body {
     padding: 2rem;
 }
 
-/* Обновленные стили модального окна */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    z-index: 1000;
-    backdrop-filter: blur(4px);
-    animation: modalFadeIn 0.3s ease;
-    overflow-y: auto; /* Добавляем прокрутку */
-    padding: 20px; /* Отступы для мобильных устройств */
-}
-
-.modal-content {
-    position: relative;
-    background-color: var(--color-white);
-    margin: 5% auto; /* Изменено с процентов на rem */
-    padding: 2.5rem;
-    width: 95%;
-    max-width: var(--modal-width);
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    animation: modalSlideIn 0.3s ease forwards;
-}
-
-.modal-close {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    cursor: pointer;
-    color: var(--color-white);
-    border-radius: 50%;
-    transition: var(--transition);
-    z-index: 1;
-}
-
-/* Обновленные стили для информации о тарифе */
 .tariff-info {
     background: var(--gradient-primary);
-    padding: 2rem;
+    padding: var(--spacing-lg);
     border-radius: var(--border-radius);
-    margin: 1.5rem 0;   
-    color: var(--color-text);
+    margin: var(--spacing) 0;   
+    color: var(--color-white);
     text-align: center;
     box-shadow: var(--shadow-primary);
 }
@@ -1015,13 +970,12 @@ body {
     margin: 0.7rem 0;
 }
 
-/* Обновленные стили формы */
 .connection-form {
-    margin-top: 2rem;
+    margin-top: var(--spacing-lg);
 }
 
 .connection-form .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing);
 }
 
 .connection-form label {
@@ -1034,12 +988,12 @@ body {
 .connection-form input,
 .connection-form textarea {
     width: 100%;
-    padding: 1rem;
-    border: 2px solid var(--color-white);
+    padding: var(--spacing);
+    border: 2px solid var(--color-border);
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: var(--transition);
-    background: var(--color-white);
+    background: var(--color-surface);
 }
 
 .connection-form input:focus,
@@ -1050,7 +1004,8 @@ body {
 }
 
 .connection-form textarea {
-    min-height: 100px;
+    min-height: 80px;
+    max-height: 150px;
     resize: vertical;
 }
 
@@ -1072,7 +1027,7 @@ body {
 .form-checkbox input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-primary);
+    border: 2px solid var (--color-primary);
     border-radius: 4px;
 }
 
@@ -1101,62 +1056,6 @@ body {
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
-/* ...existing code... */
-
-/* Обновленные стили модального окна */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-}
-
-.modal-content {
-    position: relative;
-    background-color: var(--color-white);
-    margin: 5% auto;
-    padding: 2rem;
-    width: 90%;
-    max-width: var(--modal-width);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-primary);
-}
-
-.modal-close {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--color-white);
-    transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-    color: var(--color-accent);
-}
-
-.connection-form {
-    margin-top: 2rem;
-}
-
-.tariff-info {
-    background: var(--color-white);
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    margin: 1rem 0;
-}
-
-.tariff-info h3 {
-    color: var(--color-primary);
-    margin-bottom: 0.5rem;
-}
-
-/* Стили сообщений */
 .message {
     position: fixed;
     bottom: 2rem;
@@ -1187,61 +1086,6 @@ body {
         opacity: 1;
     }
 }
-
-/* ...existing code... */
-
-/* ...existing code... */
-
-/* Стили модального окна */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: var(--color-white);
-    margin: 5% auto;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    box-shadow: var(--shadow-secondary);
-}
-
-.edit-profile-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Обновляем стиль для кнопки закрытия */
-.modal-close {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 2rem;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-light);
-    transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-    color: var(--color-accent);
-}
-
-/* ...existing code... */
 
 .tariff-card__actions {
     display: flex;
@@ -1287,10 +1131,6 @@ body {
     margin-top: 0.2rem;
 }
 
-/* ...existing code... */
-
-/* ...existing code... */
-
 .profile-actions {
     display: flex;
     flex-wrap: wrap;
@@ -1302,14 +1142,8 @@ body {
     font-size: 1.2rem;
 }
 
-/* ...existing code... */
-
-/* ...existing code... */
-
 .form-static-text {
     padding: 0.8rem 0;
     color: var(--color-text);
     font-weight: 500;
 }
-
-/* ...existing code... */
