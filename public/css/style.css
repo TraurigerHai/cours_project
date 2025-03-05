@@ -11,9 +11,6 @@
     --color-white: #ffffff;
     --color-text: #333333;
     --color-text-light: #666666;
-    --color-surface: #f8f9fa;
-    --color-gray: #f4f4f4;
-    --color-border: #dddddd;
     
     --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     --shadow-sm: 0 2px 5px rgba(51, 51, 51, 0.1);
@@ -36,7 +33,7 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     padding: var(--spacing);
-    background-color: var(--color-gray);
+    background-color: var(--color-white);
 }
 
 .container {
@@ -119,7 +116,7 @@ body {
     font-size: 2em;
     width: 50px;
     height: 50px;
-    background-color: var(--color-surface);
+    background-color: var(--color-white);
     border-radius: var(--border-radius);
     flex-shrink: 0;
     color: var(--color-white);
@@ -161,7 +158,7 @@ body {
     color: var(--color-text);
     font-size: 1rem;
     font-weight: 500;
-    background-color: var(--color-surface);
+    background-color: var(--color-white);
     border-radius: var(--border-radius);
     transition: var(--transition);
     text-decoration: none;
@@ -171,7 +168,7 @@ body {
 }
 
 .nav-link:hover {
-    background-color: var(--color-gray);
+    background-color: var(--color-white);
     color: var(--color-primary);
     transform: translateY(-2px);
     filter: brightness(95%); /* затемнение для светлой кнопки */
@@ -204,7 +201,7 @@ body {
     color: var(--color-primary);
     font-size: 1rem;
     font-weight: 500;
-    background-color: var(--color-surface);
+    background-color: var(--color-white);
     border-radius: var(--border-radius);
     transition: var(--transition);
     text-decoration: none;
@@ -248,7 +245,7 @@ body {
 
 .form-group input {
     padding: 0.8rem 1rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-white);
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: border-color 0.3s ease;
@@ -294,19 +291,6 @@ body {
     padding: 0 1rem;
     max-width: 1200px; /* добавляем максимальную ширину */
     margin: 0 auto; /* центрируем сетку */
-}
-
-/* Добавим медиа-запрос для адаптивности на маленьких экранах */
-@media (max-width: 992px) {
-    .tariffs__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 576px) {
-    .tariffs__grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 .tariff-card {
@@ -506,7 +490,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-white);
 }
 
 .stat-label {
@@ -614,7 +598,7 @@ body {
 }
 
 .dropdown-item:hover {
-    background-color: var(--color-surface);
+    background-color: var(--color-white);
     color: var(--color-primary);
     transform: translateX(5px);
 }
@@ -724,35 +708,6 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .advantages__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .hero {
-        grid-template-columns: 1fr;
-    }
-    
-    .hero__decoration {
-        display: none;
-    }
-}
-
-@media (max-width: 576px) {
-    .advantages__grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .speed-test__results {
-        grid-template-columns: 1fr;
-    }
-    
-    .hero__title {
-        font-size: 2.5rem;
-    }
-}
-
 /* ...existing code... */
 
 /* Стили для страницы биллинга */
@@ -813,7 +768,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-white);
 }
 
 /* Стили для формы оплаты */
@@ -832,7 +787,7 @@ body {
 .amount-input-group input {
     width: 100%;
     padding: 0.8rem 2rem 0.8rem 1rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-white);
     border-radius: var(--border-radius);
     font-size: 1rem;
 }
@@ -851,15 +806,15 @@ body {
 .amount-button {
     flex: 1;
     padding: 0.5rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-white);
     border-radius: var(--border-radius);
-    background: var(--color-surface);
+    background: var(--color-white);
     cursor: pointer;
     transition: var(--transition);
 }
 
 .amount-button:hover {
-    background: var(--color-gray);
+    background: var(--color-white);
     transform: translateY(-2px);
 }
 
@@ -890,14 +845,14 @@ body {
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-white);
     border-radius: var(--border-radius);
     transition: var(--transition);
 }
 
 .payment-option input:checked + .option-content {
     border-color: var(--color-primary);
-    background: var(--color-surface);
+    background: var(--color-white);
 }
 
 .option-icon {
@@ -940,7 +895,7 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--color-border);
+    background: var(--color-white);
 }
 
 .status-indicator.active {
@@ -963,7 +918,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    background: var(--color-surface);
+    background: var(--color-white);
     border-radius: var(--border-radius);
 }
 
@@ -992,23 +947,6 @@ body {
     color: var(--color-text-light);
     padding: 2rem;
 }
-
-/* Адаптивные стили */
-@media (max-width: 768px) {
-    .billing-content {
-        grid-template-columns: 1fr;
-    }
-    
-    .quick-amounts {
-        flex-wrap: wrap;
-    }
-    
-    .amount-button {
-        flex: 1 1 calc(50% - 0.5rem);
-    }
-}
-
-/* ...existing code... */
 
 /* Обновленные стили модального окна */
 .modal {
@@ -1098,11 +1036,11 @@ body {
 .connection-form textarea {
     width: 100%;
     padding: 1rem;
-    border: 2px solid var(--color-border);
+    border: 2px solid var(--color-white);
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: var(--transition);
-    background: var(--color-surface);
+    background: var(--color-white);
 }
 
 .connection-form input:focus,
@@ -1164,26 +1102,6 @@ body {
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
-/* Адаптивность для маленьких экранов */
-@media (max-width: 480px) {
-    .modal-content {
-        padding: 2rem 1.5rem;
-        margin: 1rem auto;
-    }
-
-    .tariff-info {
-        padding: 1.5rem;
-    }
-
-    .tariff-info h3 {
-        font-size: 1.5rem;
-    }
-
-    .tariff-info p {
-        font-size: 1rem;
-    }
-}
-
 /* ...existing code... */
 
 /* Обновленные стили модального окна */
@@ -1228,7 +1146,7 @@ body {
 }
 
 .tariff-info {
-    background: var(--color-surface);
+    background: var(--color-white);
     padding: 1rem;
     border-radius: var(--border-radius);
     margin: 1rem 0;
