@@ -1388,24 +1388,6 @@ body {
     margin-top: 1.5rem;
 }
 
-.download-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.download-button:hover {
-    background-color: var(--color-gray);
-    transform: translateY(-2px);
-}
-
 .button-icon {
     font-size: 1.2rem;
 }
