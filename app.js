@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./config/database');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 4000;
@@ -46,21 +47,58 @@ app.post('/login', (req, res) => {
     const { contract_number, password } = req.body;
     
     db.query(
-        'SELECT id, contract_number FROM contracts WHERE contract_number = ? AND password = ?',
-        [contract_number, password],
-        (error, results) => {
+        'SELECT id, contract_number, password FROM contracts WHERE contract_number = ?',
+        [contract_number],
+        async (error, results) => {
             if (error) {
                 console.error('Database error:', error);
                 req.session.error = 'Внутренняя ошибка сервера';
                 return res.redirect('/login');
             }
 
-            if (results.length > 0) {
-                req.session.contractId = results[0].id;
-                req.session.contractNumber = results[0].contract_number;
-                res.redirect('/profile');
-            } else {
+            if (results.length === 0) {
                 req.session.error = 'Неверный номер договора или пароль';
+                return res.redirect('/login');
+            }
+
+            try {
+                // Проверяем, похож ли пароль на хешированный (начинается с $2b$ или $2a$)
+                const storedPassword = results[0].password;
+                let isValidPassword = false;
+
+                if (storedPassword.startsWith('$2')) {
+                    // Если пароль хеширован, проверяем через bcrypt
+                    isValidPassword = await bcrypt.compare(password, storedPassword);
+                } else {
+                    // Если пароль не хеширован, сравниваем напрямую
+                    isValidPassword = password === storedPassword;
+
+                    // Опционально: автоматически хешируем пароль для будущих входов
+                    if (isValidPassword) {
+                        const hashedPassword = await bcrypt.hash(password, 10);
+                        db.query(
+                            'UPDATE contracts SET password = ? WHERE id = ?',
+                            [hashedPassword, results[0].id],
+                            (err) => {
+                                if (err) {
+                                    console.error('Error updating password hash:', err);
+                                }
+                            }
+                        );
+                    }
+                }
+
+                if (isValidPassword) {
+                    req.session.contractId = results[0].id;
+                    req.session.contractNumber = results[0].contract_number;
+                    res.redirect('/profile');
+                } else {
+                    req.session.error = 'Неверный номер договора или пароль';
+                    res.redirect('/login');
+                }
+            } catch (err) {
+                console.error('Password verification error:', err);
+                req.session.error = 'Внутренняя ошибка сервера';
                 res.redirect('/login');
             }
         }
@@ -311,7 +349,7 @@ app.get('/notifications', requireAuth, (req, res) => {
     );
 });
 
-app.post('/profile/update', requireAuth, (req, res) => {
+app.post('/profile/update', requireAuth, async (req, res) => {
     const { full_name, password } = req.body;
     const userId = req.session.userId;
 
@@ -319,8 +357,17 @@ app.post('/profile/update', requireAuth, (req, res) => {
     let params = [full_name];
 
     if (password) {
-        query += ', password = ?';
-        params.push(password);
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            query += ', password = ?';
+            params.push(hashedPassword);
+        } catch (err) {
+            console.error('Password hashing error:', err);
+            return res.json({
+                success: false,
+                error: 'Ошибка при обновлении пароля'
+            });
+        }
     }
 
     query += ' WHERE user_id = ?';
