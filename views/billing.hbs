@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container">
-        {{!-- Header такой же как и в других шаблонах --}}
         <div class="header">
             <a href="/" class="header-logo-link">
                 <div class="header-logo">🌐</div>
@@ -38,7 +37,6 @@
             </div>
 
             <div class="billing-content">
-                <!-- Карточка с балансом -->
                 <div class="billing-card balance-card">
                     <h2 class="card-title">Текущий баланс</h2>
                     <div class="balance-amount">{{balance}} ₽</div>
@@ -54,7 +52,6 @@
                     </div>
                 </div>
 
-                <!-- Карточка пополнения -->
                 <div class="billing-card payment-card">
                     <h2 class="card-title">Пополнить баланс</h2>
                     <form class="payment-form" action="/billing/pay" method="POST">
@@ -88,7 +85,6 @@
                     </form>
                 </div>
 
-                <!-- Карточка автоплатежа -->
                 <div class="billing-card autopay-card">
                     <h2 class="card-title">Автоплатеж</h2>
                     <div class="autopay-status">
@@ -121,7 +117,6 @@
                     </form>
                 </div>
 
-                <!-- История платежей -->
                 <div class="billing-card history-card">
                     <h2 class="card-title">История пополнений</h2>
                     <div class="payment-history">

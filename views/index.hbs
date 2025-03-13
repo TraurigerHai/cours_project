@@ -95,13 +95,11 @@
                         {{/if}}
                         <p class="tariff-card__price">{{price}} ₽/мес</p>
                         {{#if ../userId}}
-                            <!-- Для авторизованных пользователей -->
                             <div class="tariff-card__actions">
                                 <button class="tariff-card__button" data-tariff-id="{{id}}">Подключить</button>
                                 <p class="tariff-card__notice">Быстрое подключение через личный кабинет</p>
                             </div>
                         {{else}}
-                            <!-- Для неавторизованных пользователей -->
                             <div class="tariff-card__actions">
                                 <button class="tariff-card__button tariff-card__button--guest" data-tariff-id="{{id}}">Оставить заявку</button>
                                 <div class="tariff-card__login-hint">
@@ -116,7 +114,7 @@
             </div>
         </section>
 
-        <!-- Модальное окно подключения для гостей -->
+        <!-- Модальное окно -->
         <div id="guestConnectionModal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>

@@ -62,18 +62,13 @@ app.post('/login', (req, res) => {
             }
 
             try {
-                // Проверяем, похож ли пароль на хешированный (начинается с $2b$ или $2a$)
                 const storedPassword = results[0].password;
                 let isValidPassword = false;
 
                 if (storedPassword.startsWith('$2')) {
-                    // Если пароль хеширован, проверяем через bcrypt
                     isValidPassword = await bcrypt.compare(password, storedPassword);
                 } else {
-                    // Если пароль не хеширован, сравниваем напрямую
                     isValidPassword = password === storedPassword;
-
-                    // Опционально: автоматически хешируем пароль для будущих входов
                     if (isValidPassword) {
                         const hashedPassword = await bcrypt.hash(password, 10);
                         db.query(
@@ -187,7 +182,6 @@ app.get('/tariffs', requireAuth, (req, res) => {
             return res.render('tariffs', { error: 'Unable to load tariffs' });
         }
 
-        // Получаем данные пользователя
         db.query(
             'SELECT full_name, phone FROM contracts WHERE id = ?',
             [req.session.contractId],
