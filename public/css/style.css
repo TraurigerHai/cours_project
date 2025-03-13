@@ -115,7 +115,7 @@ body {
     border-radius: var(--border-radius);
     flex-shrink: 0;
     color: var(--color-white);
-    transition: var(--transition);  /* добавляем плавность анимации */
+    transition: var(--transition);  
 }
 .header-notification {
     display: flex;
@@ -128,7 +128,7 @@ body {
     border-radius: var(--border-radius);
     flex-shrink: 0;
     color: var(--color-white);
-    transition: var(--transition);  /* добавляем плавность анимации */
+    transition: var(--transition);  
 }
 
 .header-notification-link {
@@ -148,10 +148,10 @@ body {
 }
 
 .header-notification-link:hover .header-notification {
-    transform: none;              /* отключаем анимацию при наведении */
-    filter: none;                /* отключаем эффект яркости */
-    background-color: var(--color-primary);  /* фиксируем цвет фона */
-    color: var(--color-white);   /* фиксируем цвет текста */
+    transform: none;            
+    filter: none;              
+    background-color: var(--color-primary); 
+    color: var(--color-white);  
 }
 
 .nav-menu {
@@ -179,22 +179,22 @@ body {
     background-color: var(--color-white);
     color: var(--color-primary);
     transform: translateY(-2px);
-    filter: brightness(95%); /* затемнение для светлой кнопки */
+    filter: brightness(95%); 
 }
 
 .nav-link--active {
     background-color: var(--color-primary);
     color: var(--color-white);
-    pointer-events: none;  /* отключаем взаимодействие */
-    transform: none;       /* отключаем возможную трансформацию */
-    cursor: default;       /* меняем курсор на обычный */
+    pointer-events: none;  
+    transform: none;       
+    cursor: default;    
 }
 
 .nav-link--active:hover {
-    transform: none;              /* отключаем анимацию при наведении */
-    filter: none;                /* отключаем эффект яркости */
-    background-color: var(--color-primary);  /* фиксируем цвет фона */
-    color: var(--color-white);   /* фиксируем цвет текста */
+    transform: none;            
+    filter: none;                
+    background-color: var(--color-primary);  
+    color: var(--color-white);   
 }
 
 .auth-section {
@@ -222,7 +222,7 @@ body {
     background-color: var(--color-primary);
     color: var(--color-white);
     transform: translateY(-2px);
-    filter: brightness(130%); /* осветление для тёмной кнопки */
+    filter: brightness(130%); 
 }
 
 .auth-form-container {
@@ -277,7 +277,7 @@ body {
 
 .auth-submit:hover {
     background-color: var(--color-primary);
-    filter: brightness(130%); /* осветление для тёмной кнопки */
+    filter: brightness(130%); 
     transform: translateY(-2px);
 }
 
@@ -294,11 +294,11 @@ body {
 
 .tariffs__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* изменено с auto-fit на фиксированное количество колонок */
+    grid-template-columns: repeat(3, 1fr); 
     gap: var(--spacing-lg);
     padding: 0 1rem;
-    max-width: 1200px; /* добавляем максимальную ширину */
-    margin: 0 auto; /* центрируем сетку */
+    max-width: 1200px; 
+    margin: 0 auto; 
 }
 
 .tariff-card {
@@ -311,7 +311,6 @@ body {
     gap: 1.5rem;
 }
 
-/* Удаляем hover эффект для карточки */
 .tariff-card:hover {
     transform: none;
 }
@@ -362,7 +361,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Стили для блока новостей */
 .news-section {
     padding: 2rem 0;
     margin-bottom: 2rem;
@@ -413,7 +411,6 @@ body {
     line-height: 1.5;
 }
 
-/* Стили профиля */
 .profile-section {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -531,7 +528,6 @@ body {
     flex-wrap: nowrap;
 }
 
-/* Dropdown styles */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -612,7 +608,6 @@ body {
     transform: none;
 }
 
-/* Hero section */
 .hero {
     position: relative;
     display: grid;
@@ -680,7 +675,6 @@ body {
     opacity: 0.1;
 }
 
-/* Advantages section */
 .advantages {
     margin-bottom: 4rem;
 }
@@ -710,7 +704,6 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Стили для страницы биллинга */
 .billing-section {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -746,7 +739,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Стили для карточки баланса */
 .balance-card {
     text-align: center;
 }
@@ -771,7 +763,6 @@ body {
     border-bottom: 1px solid var(--color-white);
 }
 
-/* Стили для формы оплаты */
 .payment-form {
     display: flex;
     flex-direction: column;
@@ -867,7 +858,7 @@ body {
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: var(--transition);
-    margin-top: 1.5rem; /* Добавлен отступ сверху */
+    margin-top: 1.5rem;
 }
 
 .payment-submit:hover, .autopay-submit:hover {
@@ -880,10 +871,9 @@ body {
 }
 
 .autopay-form {
-    margin-top: 1.5rem; /* Добавлен отступ для формы автоплатежа */
+    margin-top: 1.5rem;
 }
 
-/* Стили для автоплатежа */
 .autopay-status {
     display: flex;
     align-items: center;
@@ -907,7 +897,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Стили для истории платежей */
 .payment-history {
     display: flex;
     flex-direction: column;
