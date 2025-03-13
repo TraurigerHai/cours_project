@@ -3,40 +3,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.querySelector('.modal-content');
     const closeBtn = document.querySelector('.modal-close');
 
-    // Обработчик для кнопок подключения
     document.querySelectorAll('.tariff-card__button').forEach(button => {
         button.addEventListener('click', function() {
             const tariffId = this.dataset.tariffId;
             
             if (this.classList.contains('tariff-card__button--guest')) {
-                // Для гостей показываем модальное окно
                 const tariffCard = this.closest('.tariff-card');
                 const tariffName = tariffCard.querySelector('.tariff-card__title').textContent;
                 const tariffSpeed = tariffCard.querySelector('.tariff-card__speed').textContent;
                 const tariffPrice = tariffCard.querySelector('.tariff-card__price').textContent;
                 showGuestConnectionModal(tariffId, tariffName, tariffSpeed, tariffPrice);
             } else {
-                // Для авторизованных пользователей делаем редирект
                 window.location.href = `/tariffs?connect=${tariffId}`;
             }
         });
     });
 
-    // Закрытие модального окна
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
     }
 
-    // Закрытие по клику вне модального окна
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
     });
 
-    // Маска для телефона
     const phoneInput = document.getElementById('guest_phone');
     if (phoneInput) {
         phoneInput.addEventListener('input', function(e) {
@@ -46,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Обработка отправки формы
     const guestConnectionForm = document.getElementById('guestConnectionForm');
     if (guestConnectionForm) {
         guestConnectionForm.addEventListener('submit', async (e) => {
